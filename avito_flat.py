@@ -210,7 +210,6 @@ def avito_flat():
         writer = csv.writer(f)
         writer.writerows([(i.maybe_sold, i.id, i.price[-1][0], i.price[-1][1]) for i in file_flat_set])
     with open('for_open_office1.csv', 'w', newline='') as f:
-        # write only if something change
         writer = csv.writer(f)
         prices = []
         for i in file_flat_set:
@@ -222,6 +221,7 @@ def avito_flat():
         for i in prices:
             while len(i) < max_len:
                 i.insert(2, '0')
+        writer.writerow((f'{len(file_flat_set)}', f'{max_len}'))
         writer.writerows(prices)
 
 
