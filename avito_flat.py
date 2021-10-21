@@ -10,8 +10,8 @@ from datetime import datetime
 
 def avito_flat():
     current_date_time = datetime.now().isoformat()
-    path_to_json_file = ''
-    path_to_csv_file = ''
+    path_to_json_file = '/home/ub/Documents/GIT/parsers/'
+    path_to_csv_file = 'home/ub/Documents/GIT/parsers/'
 
     def avito_price_convert(price: str):
         """
@@ -209,7 +209,7 @@ def avito_flat():
     with open(path_to_csv_file + 'avito_flat_kres.csv', 'a', newline='') as f:
         writer = csv.writer(f)
         writer.writerows([(i.maybe_sold, i.id, i.price[-1][0], i.price[-1][1]) for i in file_flat_set])
-    with open('for_open_office1.csv', 'w', newline='') as f:
+    with open(path_to_csv_file + 'for_open_office1.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         prices = []
         for i in file_flat_set:
