@@ -1,8 +1,8 @@
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.common.by import By
-
+import re
 
 def moex_bonds():
     """
@@ -24,8 +24,13 @@ def moex_bonds():
         try:
             price_1 = float(price_1.replace(',', '.'))
         except ValueError:
-            price_1 = driver.find_element_by_xpath('/html/body/div[3]/div[3]/div/div/div[1]/div/div/div/div/div[3]/'
+            right_panel = driver.find_element_by_id('desc_container2')
+            row = [_ for _ in right_panel.find_elements_by_tag_name('tr') if re.match(r'Цена последней', _.text)]
+            assert len(row) == 1
+            price_1 = row[0].find_element_by_tag_name('td').text
+            """price_1 = driver.find_element_by_xpath('/html/body/div[3]/div[3]/div/div/div[1]/div/div/div/div/div[3]/'
                                                    'div/div[2]/div[2]/div[1]/div/div[2]/div/table/tbody/tr[26]/td').text
+            """
             price_1 = float(price_1.replace(',', '.'))
         driver.get(url_2)
         price_2 = (WebDriverWait(driver, 5).until(expected_conditions.presence_of_element_located((By.CLASS_NAME,
@@ -33,8 +38,15 @@ def moex_bonds():
         try:
             price_2 = float(price_2.replace(',', '.'))
         except ValueError:
-            price_2 = driver.find_element_by_xpath('/html/body/div[3]/div[3]/div/div/div[1]/div/div/div/div/div[3]/div/'
+            right_panel = driver.find_element_by_id('desc_container2')
+            row = [_ for _ in right_panel.find_elements_by_tag_name('tr') if re.match(r'Цена последней', _.text)]
+            assert len(row) == 1
+            price_2 = row[0].find_element_by_tag_name('td').text
+
+
+            """price_2 = driver.find_element_by_xpath('/html/body/div[3]/div[3]/div/div/div[1]/div/div/div/div/div[3]/div/'
                                                    'div[2]/div[2]/div[1]/div/div[2]/div/table/tbody/tr[26]/td').text
+            """
             price_2 = float(price_2.replace(',', '.'))
     finally:
         driver.quit()
