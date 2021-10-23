@@ -11,7 +11,7 @@ from datetime import datetime
 def avito_flat():
     current_date_time = datetime.now().isoformat()
     path_to_json_file = '/home/ub/Documents/GIT/parsers/'
-    path_to_csv_file = 'home/ub/Documents/GIT/parsers/'
+    path_to_csv_file = '/home/ub/Documents/GIT/parsers/'
 
     def avito_price_convert(price: str):
         """
@@ -65,7 +65,8 @@ def avito_flat():
                 self.maybe_sold = True
                 for attribute in ('description', 'avito_id', 'price'):
                     if self.__dict__.get(attribute):
-                        self.attribute[-1][1] = current_date_time
+                        getattr(self, f'{attribute}')[-1][1] = current_date_time
+                        #getattr(self, f'{attribute}[-1][1] = current_date_time
                 self.control_dict()
 
         def control_dict(self):

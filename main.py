@@ -8,7 +8,7 @@ import csv
 import pyexcel
 
 avito_flat.avito_flat()
-path_to_csv = 'home/ub/Documents/GIT/parsers/'
+path_to_csv = '/home/ub/Documents/GIT/parsers/'
 
 bond_price = moex_bonds.moex_bonds()
 with open(path_to_csv + 'for_open_office2.csv', 'w') as f:
