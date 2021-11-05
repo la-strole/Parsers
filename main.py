@@ -7,11 +7,20 @@ import uralsib_coins
 import csv
 import pyexcel
 from sys import stderr
+import argparse
 
-path_to_csv = '/home/ub/Documents/GIT/parsers/'
+# get path from command line (to start_parsers.sh)
+parser = argparse.ArgumentParser(description='get path to working directory')
+parser.add_argument('-path', type=str, required=False)
+args = parser.parse_args()
+if args.path:
+    path_to_csv = args.path
+else:
+    path_to_csv = '/home/ub/Documents/GIT/parsers/'
 
 # path to for_open_office1.csv you can change at avito_flat.py path_to_csv_file variable
-avito_flat.avito_flat()
+
+avito_flat.avito_flat(path_to_csv)
 
 bond_price = moex_bonds.moex_bonds()
 with open(path_to_csv + 'for_open_office2.csv', 'w') as f:
