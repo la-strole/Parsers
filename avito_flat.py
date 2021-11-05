@@ -203,13 +203,18 @@ def avito_flat():
                 f_item.control_dict()
     # A - F - add to json file
     file_flat_set.extend([i for i in avito_flats_set if i not in file_flat_set])
+
     # write to  json file json dump
     with open(path_to_json_file + 'avito_flat_krest.json', "w") as f:
         f.write(json.dumps([i.__dict__ for i in file_flat_set]))
-    # write to csv for export to open office
-    with open(path_to_csv_file + 'avito_flat_kres.csv', 'a', newline='') as f:
+
+    # write to csv for export to db (in future)
+    '''
+        with open(path_to_csv_file + 'avito_flat_kres.csv', 'a', newline='') as f:
         writer = csv.writer(f)
         writer.writerows([(i.maybe_sold, i.id, i.price[-1][0], i.price[-1][1]) for i in file_flat_set])
+    '''
+    # write to csv to export to libreoffice file
     with open(path_to_csv_file + 'for_open_office1.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         prices = []
@@ -221,7 +226,7 @@ def avito_flat():
         max_len = len(max(prices, key=len))
         for i in prices:
             while len(i) < max_len:
-                i.insert(2, '0')
+                i.insert(2, '-')
         writer.writerow((f'{len(file_flat_set)}', f'{max_len}'))
         writer.writerows(prices)
 
