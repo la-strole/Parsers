@@ -22,6 +22,7 @@ def moex_bonds():
     try:
         price_1 = (WebDriverWait(driver, 5).until(expected_conditions.presence_of_element_located((By.CLASS_NAME,
                                                                                                   'last')))).text
+
         # if no cells today than price would be "-" - we have to get price from yesterday.
         try:
             price_1 = float(price_1.replace(',', '.'))

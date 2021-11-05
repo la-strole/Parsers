@@ -10,6 +10,7 @@ from sys import stderr
 
 path_to_csv = '/home/ub/Documents/GIT/parsers/'
 
+# path to for_open_office1.csv you can change at avito_flat.py path_to_csv_file variable
 avito_flat.avito_flat()
 
 bond_price = moex_bonds.moex_bonds()

@@ -66,7 +66,7 @@ def avito_flat():
                 for attribute in ('description', 'avito_id', 'price'):
                     if self.__dict__.get(attribute):
                         getattr(self, f'{attribute}')[-1][1] = current_date_time
-                        #getattr(self, f'{attribute}[-1][1] = current_date_time
+                        # getattr(self, f'{attribute}[-1][1] = current_date_time
                 self.control_dict()
 
         def control_dict(self):
@@ -214,6 +214,7 @@ def avito_flat():
         writer = csv.writer(f)
         writer.writerows([(i.maybe_sold, i.id, i.price[-1][0], i.price[-1][1]) for i in file_flat_set])
     '''
+
     # write to csv to export to libreoffice file
     with open(path_to_csv_file + 'for_open_office1.csv', 'w', newline='') as f:
         writer = csv.writer(f)

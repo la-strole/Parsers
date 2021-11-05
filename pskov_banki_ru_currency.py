@@ -103,6 +103,7 @@ def pskov_banki_ru_currency():
         'eur': float(((currency_table.find(text="EUR")).findParent()).findNextSibling().text.replace(",", ".")),
         'update_timestamp': time_convert(update_d_t_currency).isoformat()
     }
+    # moex currency exchange
     moex = {
         'usd': float(currency_table.find_all('span')[1].text.replace(",", ".")),
         'eur': float(currency_table.find_all('span')[2].text.replace(",", ".")),

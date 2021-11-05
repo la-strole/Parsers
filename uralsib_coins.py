@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 
 def uralsib_coin_price():
     """
+    Get price of coin from Uralsib bank web site.
     :return: coin_price: float
     """
     url = 'https://www.uralsib.ru/investments-and-insurance/ivestitsii/invest-money/georgiy-pobedonosec-mmd-6497/'
