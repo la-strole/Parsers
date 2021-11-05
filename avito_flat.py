@@ -8,10 +8,14 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 
-def avito_flat():
+def avito_flat(path_to_working_directory=None):
     current_date_time = datetime.now().isoformat()
-    path_to_json_file = '/home/ub/Documents/GIT/parsers/'
-    path_to_csv_file = '/home/ub/Documents/GIT/parsers/'
+    if path_to_working_directory:
+        path_to_json_file = path_to_working_directory
+        path_to_csv_file = path_to_working_directory
+    else:
+        path_to_json_file = '/home/ub/Documents/GIT/parsers/'
+        path_to_csv_file = '/home/ub/Documents/GIT/parsers/'
 
     def avito_price_convert(price: str):
         """
