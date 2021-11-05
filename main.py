@@ -22,7 +22,7 @@ else:
 
 avito_flat.avito_flat(path_to_csv)
 
-bond_price = moex_bonds.moex_bonds()
+bond_price = moex_bonds.moex_bonds(path_to_geckodriver=(path_to_csv+'geckodriver'))
 with open(path_to_csv + 'for_open_office2.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerows([
