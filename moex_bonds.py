@@ -5,7 +5,7 @@ from selenium.webdriver.support import expected_conditions
 import re
 
 
-def moex_bonds():
+def moex_bonds(path_to_geckodriver=None):
     """
     moex bonds parser
     :return: moex_bonds:dict
@@ -16,7 +16,11 @@ def moex_bonds():
     url_1 = 'https://www.moex.com/ru/issue.aspx?code=XS0893212398'
     url_2 = 'https://www.moex.com/ru/issue.aspx?code=XS0088543193#/bond_1'
 
-    driver = webdriver.Firefox()
+    if path_to_geckodriver:
+        driver = webdriver.Firefox(executable_path=path_to_geckodriver)
+    else:
+        driver = webdriver.Firefox()
+
     driver.get(url_1)
     driver.find_element_by_link_text('Согласен').click()
     try:
