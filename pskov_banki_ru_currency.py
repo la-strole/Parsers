@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import re
 from datetime import datetime
+import argparse
+import csv
 
 
 def pskov_banki_ru_currency():
@@ -151,4 +153,25 @@ def pskov_banki_ru_currency():
 
 
 if __name__ == '__main__':
-    pskov_banki_ru_currency()
+
+    # get path from command line (to run without libreoffice calc file)
+    parser = argparse.ArgumentParser(description='get path to working directory')
+    parser.add_argument('-path', type=str, required=True, help='/path/to/workingdir/')
+    args = parser.parse_args()
+    if args.path:
+        path_to_working_directory = args.path
+        currency = pskov_banki_ru_currency()
+        with open(path_to_working_directory + 'pskov_bank_currency.csv', 'w') as f:
+            writer = csv.writer(f)
+            writer.writerows([
+                (f'{currency["usd_buy"]["price"]}', f'{currency["usd_buy"]["bank_name"]}',
+                 f'{currency["usd_buy"]["update_timestamp"]}'),
+                (f'{currency["eur_buy"]["price"]}', f'{currency["eur_buy"]["bank_name"]}',
+                 f'{currency["eur_buy"]["update_timestamp"]}'),
+                (f'{currency["usd_sell"]["price"]}', f'{currency["usd_sell"]["bank_name"]}',
+                 f'{currency["usd_sell"]["update_timestamp"]}'),
+                (f'{currency["eur_sell"]["price"]}', f'{currency["eur_sell"]["bank_name"]}',
+                 f'{currency["eur_sell"]["update_timestamp"]}'),
+                (f'{currency["cbr"]["usd"]}', "Central Bank USD", f'{currency["cbr"]["update_timestamp"]}'),
+                (f'{currency["cbr"]["eur"]}', "Central Bank EUR", f'{currency["cbr"]["update_timestamp"]}')
+            ])

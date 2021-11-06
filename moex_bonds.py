@@ -1,11 +1,14 @@
+import selenium.common.exceptions
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 import re
+import argparse
+import csv
 
 
-def moex_bonds(path_to_geckodriver=None):
+def moex_bonds(path_to_geckodriver):
     """
     moex bonds parser
     :return: moex_bonds:dict
@@ -16,16 +19,17 @@ def moex_bonds(path_to_geckodriver=None):
     url_1 = 'https://www.moex.com/ru/issue.aspx?code=XS0893212398'
     url_2 = 'https://www.moex.com/ru/issue.aspx?code=XS0088543193#/bond_1'
 
-    if path_to_geckodriver:
+    try:
         driver = webdriver.Firefox(executable_path=path_to_geckodriver)
-    else:
+    # if geckodriver in Path
+    except selenium.common.exceptions.WebDriverException:
         driver = webdriver.Firefox()
 
     driver.get(url_1)
     driver.find_element_by_link_text('Согласен').click()
     try:
         price_1 = (WebDriverWait(driver, 5).until(expected_conditions.presence_of_element_located((By.CLASS_NAME,
-                                                                                                  'last')))).text
+                                                                                                   'last')))).text
 
         # if no cells today than price would be "-" - we have to get price from yesterday.
         try:
@@ -41,7 +45,7 @@ def moex_bonds(path_to_geckodriver=None):
             price_1 = float(price_1.replace(',', '.'))
         driver.get(url_2)
         price_2 = (WebDriverWait(driver, 5).until(expected_conditions.presence_of_element_located((By.CLASS_NAME,
-                                                                                                     'last')))).text
+                                                                                                   'last')))).text
         # if no cells today than price would be "-" - we have to get price from yesterday.
         try:
             price_2 = float(price_2.replace(',', '.'))
@@ -59,4 +63,17 @@ def moex_bonds(path_to_geckodriver=None):
 
 
 if __name__ == '__main__':
-    moex_bonds()
+
+    # get path from command line (to run without libreoffice calc file)
+    parser = argparse.ArgumentParser(description='get path to working directory')
+    parser.add_argument('-path', type=str, required=True, help='/path/to/workingdir/')
+    args = parser.parse_args()
+    if args.path:
+        path_to_working_directory = args.path
+        bond_price = moex_bonds(path_to_geckodriver=(path_to_working_directory + 'geckodriver'))
+        with open(path_to_working_directory + 'moex_bonds.csv', 'w') as f:
+            writer = csv.writer(f)
+            writer.writerows([
+                (f"{bond_price['XS0893212398']}",),
+                (f"{bond_price['XS0088543193']}",)
+            ])

@@ -2,6 +2,8 @@ import bs4.element
 import requests
 from bs4 import BeautifulSoup
 import re
+import argparse
+import csv
 
 
 def gold_price():
@@ -61,4 +63,14 @@ def gold_price():
 
 
 if __name__ == '__main__':
-    gold_price()
+
+    # get path from command line (to run without libreoffice calc file)
+    parser = argparse.ArgumentParser(description='get path to working directory')
+    parser.add_argument('-path', type=str, required=True, help='/path/to/workingdir/')
+    args = parser.parse_args()
+    if args.path:
+        path_to_working_directory = args.path
+        gold = gold_price()
+        with open(path_to_working_directory + 'best_gold_price.csv', 'w') as f:
+            writer = csv.writer(f)
+            writer.writerow([f'{gold["price"]}', f'{gold["bank_name"]}', f'{gold["update_timestamp"]}'])
