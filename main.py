@@ -11,18 +11,13 @@ import argparse
 
 # get path from command line (to start_parsers.sh)
 parser = argparse.ArgumentParser(description='get path to working directory')
-parser.add_argument('-path', type=str, required=False)
+parser.add_argument('-path', type=str, required=True, help='/path/to/workingdir/')
 args = parser.parse_args()
-if args.path:
-    path_to_csv = args.path
-else:
-    path_to_csv = '/home/ub/Documents/GIT/parsers/'
-
-# path to for_open_office1.csv you can change at avito_flat.py path_to_csv_file variable
+path_to_csv = args.path
 
 avito_flat.avito_flat(path_to_csv)
 
-bond_price = moex_bonds.moex_bonds(path_to_geckodriver=(path_to_csv+'geckodriver'))
+bond_price = moex_bonds.moex_bonds(path_to_geckodriver=(path_to_csv + 'geckodriver'))
 with open(path_to_csv + 'for_open_office2.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerows([
