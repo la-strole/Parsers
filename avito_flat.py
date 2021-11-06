@@ -6,16 +6,15 @@ import re
 import itertools
 from bs4 import BeautifulSoup
 from datetime import datetime
+import argparse
 
 
-def avito_flat(path_to_working_directory=None):
+def avito_flat(path_to_working_directory, csv_name='for_open_office1.csv'):
+
     current_date_time = datetime.now().isoformat()
-    if path_to_working_directory:
-        path_to_json_file = path_to_working_directory
-        path_to_csv_file = path_to_working_directory
-    else:
-        path_to_json_file = '/home/ub/Documents/GIT/parsers/'
-        path_to_csv_file = '/home/ub/Documents/GIT/parsers/'
+
+    path_to_json_file = path_to_working_directory
+    path_to_csv_file = path_to_working_directory
 
     def avito_price_convert(price: str):
         """
@@ -177,7 +176,7 @@ def avito_flat(path_to_working_directory=None):
     file_flat_set = list()
     try:
         with open(path_to_json_file + 'avito_flat_krest.json', "r") as f:
-            if os.path.getsize("/home/ub/Documents/GIT/parsers/avito_flat_krest.json") > 0:
+            if os.path.getsize(path_to_json_file+"avito_flat_krest.json") > 0:
                 line = json.load(f)
                 file_flat_set = []
                 for item in line:
@@ -220,7 +219,7 @@ def avito_flat(path_to_working_directory=None):
     '''
 
     # write to csv to export to libreoffice file
-    with open(path_to_csv_file + 'for_open_office1.csv', 'w', newline='') as f:
+    with open(path_to_csv_file + csv_name, 'w', newline='') as f:
         writer = csv.writer(f)
         prices = []
         for i in file_flat_set:
@@ -236,5 +235,13 @@ def avito_flat(path_to_working_directory=None):
         writer.writerows(prices)
 
 
-if __name__ == '__main__()':
-    avito_flat()
+if __name__ == '__main__':
+
+    # get path from command line (to run without libreoffice calc file)
+    parser = argparse.ArgumentParser(description='get path to working directory')
+    parser.add_argument('-path', type=str, required=True, help='/path/to/workingdir/')
+    args = parser.parse_args()
+    if args.path:
+        path_to_working_directory = args.path
+        avito_flat(path_to_working_directory, csv_name='avito_flat_prices.csv')
+
