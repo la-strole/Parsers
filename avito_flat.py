@@ -155,8 +155,9 @@ def avito_flat(path_to_working_directory, csv_name='for_open_office1.csv'):
         district = str(address_line[2].split(' ')[1])
         # get description
         description_line = item.find("div",
-                                     attrs={'class': 'iva-item-text-_s_vh iva-item-description-S2pXQ text-text-LurtD '
+                                     attrs={'class': 'iva-item-text-Ge6dR iva-item-description-FDgK4 text-text-LurtD '
                                                      'text-size-s-BxGpL'})
+
         assert description_line
         description = description_line.text
         # get id from avito
